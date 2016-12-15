@@ -135,10 +135,9 @@ $( function() {
 
       // Remember the title of the current feed.
       beforeEach( function( done ) {
-        console.log( $( '.header-title' ).html() );
         feedName = $( '.header-title' ).html();
-        console.log( feedName );
 
+        // change the feed.
         loadFeed( 1, function() {
           done();
         } ); // loadFeed
@@ -149,6 +148,8 @@ $( function() {
        * Remember, loadFeed() is asynchronous.
        */
       it( "Menu content changes when loadFeed called", function() {
+        // Each feed has a unique name. Therefor it is safe to assume
+        // that if the feed title changes, then the feed has changed.
         var newFeedName = $( '.header-title' ).html();
         expect( newFeedName === feedName ).not.toBeTruthy();
 
