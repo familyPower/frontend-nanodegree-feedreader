@@ -97,53 +97,63 @@ $( function() {
 
       expect( $( 'body' ).hasClass( 'menu-hidden' ) ).toBeTruthy();
     } );
-  } );
 
 
-  /* TODO: Write a new test suite named "Initial Entries" */
-  describe( 'Initial Entries', function() {
+    /* TODO: Write a new test suite named "Initial Entries" */
+    describe( 'Initial Entries', function() {
 
-    // run the async call before each test
-    console.log( "here-start" );
-    beforeEach( function() {
-      $.ajax( {
-        url: 'index.html',
-        data: [],
-        success: function( data ) {
-          setFixtures( data );
-          successCallback = ( function( loadFeed ) {
-            return function( data ) {
-              loadFeed( 0 );
-              done();
-            };
-          } )( successCallback );
-        },
-        dataType: 'html'
+      // run the async call before each test
+      beforeEach( function( done ) {
+        loadFeed( 0, function() {
+          done();
+        } );
       } );
-      console.log( "here-end" );
-    } );
 
-    /*
-     * TODO: Write a test that ensures when the loadFeed
-     * function is called and completes its work, there is at least
-     * a single .entry element within the .feed container.
-     * Remember, loadFeed() is asynchronous so this test will require
-     * the use of Jasmine's beforeEach and asynchronous done() function.
-     */
+      /*
+       * TODO: Write a test that ensures when the loadFeed
+       * function is called and completes its work, there is at least
+       * a single .entry element within the .feed container.
+       * Remember, loadFeed() is asynchronous so this test will require
+       * the use of Jasmine's beforeEach and asynchronous done() function.
+       */
+      it( ".feed has at least one .entry", function() {
+        expect( $( '.feed' ).children().length > 0 ).toBeTruthy();
+        //      waitFor( null, null, 5000 );
+      } );
+
+    } ); //  describe
 
 
 
-    /* TODO: Write a new test suite named "New Feed Selection"
-        //     describe('New Feed Selection', function() {
-        //
-        //         /* TODO: Write a test that ensures when a new feed is loaded
-        //          * by the loadFeed function that the content actually changes.
-        //          * Remember, loadFeed() is asynchronous.
-        //          */
-    // });
+    /* TODO: Write a new test suite named "New Feed Selection" */
+    describe( 'New Feed Selection', function() {
+
+      // Make the menu visible so the menu title can be read.
+      //      $( 'body' ).toggleClass( 'menu-hidden' )
+
+      var feedName;
+
+      // Remember the title of the current feed.
+      beforeEach( function( done ) {
+        console.log( $( '.header-title' ).html() );
+        feedName = $( '.header-title' ).html();
+        console.log( feedName );
+
+        loadFeed( 1, function() {
+          done();
+        } ); // loadFeed
+      } ); // beforeEach
+
+      /* TODO: Write a test that ensures when a new feed is loaded
+       * by the loadFeed function that the content actually changes.
+       * Remember, loadFeed() is asynchronous.
+       */
+      it( "Menu content changes when loadFeed called", function() {
+        var newFeedName = $( '.header-title' ).html();
+        expect( newFeedName === feedName ).not.toBeTruthy();
+
+      } ); // it
+
+    } ); //   describe
   } );
-
-  // } );
-
-
 }() );
