@@ -133,15 +133,20 @@ $( function() {
 
       var feedName;
 
-      // Remember the title of the current feed.
+      // Reset to a known state.
       beforeEach( function( done ) {
-        feedName = $( '.header-title' ).html();
-
         // change the feed.
-        loadFeed( 1, function() {
+        loadFeed( 0, function() {
+          // remember the feed
+          feedName = $( '.header-title' ).html();
           done();
         } ); // loadFeed
       } ); // beforeEach
+
+      // Load a new known stated
+      beforeEach( function( done ) {
+        loadFeed( 1, done );
+      } )
 
       /* TODO: Write a test that ensures when a new feed is loaded
        * by the loadFeed function that the content actually changes.
